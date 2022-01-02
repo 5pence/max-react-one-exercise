@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Card from "../UI/Card";
 import ExpenseItem from "./ExpenseItem";
 import "./Expenses.css";
@@ -6,14 +6,17 @@ import ExpensesFilter from "./ExpensesFilter";
 
 const Expenses = ({ expenses }) => {
     
-  const onYearSelectHandler = (event) => {
-    console.log("in expenses: ", event);
+  const [selected, setSelected] = useState('2019');
+
+  const onYearSelectHandler = (selected) => {
+    console.log("in expenses: ", selected);
+    setSelected(selected);
   };
 
   return (
     <div>
       <Card className="expenses">
-        <ExpensesFilter onYearSelectHandler={onYearSelectHandler} />
+        <ExpensesFilter selected={selected} onYearSelectHandler={onYearSelectHandler} />
         {expenses.map((expense) => (
           <div className="expenses" key={expense.id}>
             <ExpenseItem expense={expense} />
