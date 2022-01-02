@@ -9,19 +9,25 @@ const Expenses = ({ expenses }) => {
   const [selected, setSelected] = useState('2019');
 
   const onYearSelectHandler = (selected) => {
-    console.log("in expenses: ", selected);
     setSelected(selected);
   };
 
+  const filteredExpenses = expenses.filter(function(item) {
+    return item.date.getFullYear().toString() === selected;
+  });
+  
   return (
     <div>
       <Card className="expenses">
         <ExpensesFilter selected={selected} onYearSelectHandler={onYearSelectHandler} />
-        {expenses.map((expense) => (
-          <div className="expenses" key={expense.id}>
-            <ExpenseItem expense={expense} />
-          </div>
-        ))}
+        { filteredExpenses.length === 0 && <p>No Expenses Registered</p>}
+        { filteredExpenses.length > 0 &&
+          filteredExpenses.map((expense) => (
+            <div className="expenses" key={expense.id}>
+              <ExpenseItem expense={expense} />
+            </div>
+          ))
+        }
       </Card>
     </div>
   );
